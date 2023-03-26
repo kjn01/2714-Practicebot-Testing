@@ -17,10 +17,10 @@ import frc.robot.Constants;
 
 public class SecondJoint extends SubsystemBase {
 
-  CANSparkMax secondJoint;
-  CANSparkMax secondJointFollower;
-  AbsoluteEncoder secondJointEncoder;
-  ProfiledPIDController secondJointController;
+  private CANSparkMax secondJoint;
+  private CANSparkMax secondJointFollower;
+  private AbsoluteEncoder secondJointEncoder;
+  private ProfiledPIDController secondJointController;
 
   /** Creates a new Arm. */
   public SecondJoint() {

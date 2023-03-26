@@ -28,14 +28,14 @@ public final class Constants {
   public static final class ArmConstants {
 
     public static final class BaseJointConstants {
-      public static final int kBaseJointMotorCanId = 0;
-      public static final int kFollowerBaseJointMotorCanId = 0;
+      public static final int kBaseJointMotorCanId = 10;
+      public static final int kFollowerBaseJointMotorCanId = 9;
       public static final int kBaseJointGearRatio = 240;
     }
 
     public static final class SecondJointConstants {
-      public static final int kSecondJointMotorCanId = 0;
-      public static final int kFollowerSecondJointMotorCanId = 0;
+      public static final int kSecondJointMotorCanId = 11;
+      public static final int kFollowerSecondJointMotorCanId = 12;
       public static final int kSecondJointGearRatio = 225;
     }
   }
@@ -68,15 +68,15 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 11;
-    public static final int kRearLeftDrivingCanId = 13;
-    public static final int kFrontRightDrivingCanId = 15;
-    public static final int kRearRightDrivingCanId = 17;
+    public static final int kFrontLeftDrivingCanId = 4;
+    public static final int kRearLeftDrivingCanId = 3;
+    public static final int kFrontRightDrivingCanId = 1;
+    public static final int kRearRightDrivingCanId = 2;
 
-    public static final int kFrontLeftTurningCanId = 10;
-    public static final int kRearLeftTurningCanId = 12;
-    public static final int kFrontRightTurningCanId = 14;
-    public static final int kRearRightTurningCanId = 16;
+    public static final int kFrontLeftTurningCanId = 8;
+    public static final int kRearLeftTurningCanId = 7;
+    public static final int kFrontRightTurningCanId = 5;
+    public static final int kRearRightTurningCanId = 6;
 
     public static final boolean kGyroReversed = false;
   }
@@ -130,6 +130,13 @@ public final class Constants {
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
     public static final int kTurningMotorCurrentLimit = 20; // amps
+  }
+
+  public static final class HandConstants {
+    public static final int kWristMotorCanId = 16;
+    public static final int kWristGearRatio = 60;
+    public static final int kClawMotorCanId = 14;
+
   }
 
   public static final class OIConstants {

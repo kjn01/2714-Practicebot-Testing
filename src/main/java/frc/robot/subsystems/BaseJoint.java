@@ -17,10 +17,10 @@ import frc.robot.Constants;
 
 public class BaseJoint extends SubsystemBase {
 
-  CANSparkMax baseJoint;
-  CANSparkMax baseJointFollower;
-  AbsoluteEncoder baseJointEncoder;
-  ProfiledPIDController baseController;
+  private CANSparkMax baseJoint;
+  private CANSparkMax baseJointFollower;
+  private AbsoluteEncoder baseJointEncoder;
+  private ProfiledPIDController baseController;
 
   /** Creates a new Arm. */
   public BaseJoint() {

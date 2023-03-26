@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase {
   /** Creates a new Arm. */
 
-  BaseJoint baseJoint = new BaseJoint();
-  SecondJoint secondJoint = new SecondJoint();
+  private BaseJoint baseJoint = new BaseJoint();
+  private SecondJoint secondJoint = new SecondJoint();
   
   public Arm() {}
 
