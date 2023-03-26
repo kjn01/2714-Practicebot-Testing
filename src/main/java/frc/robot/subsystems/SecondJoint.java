@@ -26,7 +26,7 @@ public class SecondJoint extends SubsystemBase {
   public SecondJoint() {
     secondJoint = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.kSecondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
     secondJointFollower = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.kSecondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
-    secondJointFollower.follow(secondJoint);
+    secondJointFollower.follow(secondJoint, true);
 
     secondJoint.setIdleMode(IdleMode.kBrake);
     secondJointFollower.setIdleMode(IdleMode.kBrake);

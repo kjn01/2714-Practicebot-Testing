@@ -26,7 +26,7 @@ public class BaseJoint extends SubsystemBase {
   public BaseJoint() {
     baseJoint = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.kBaseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
     baseJointFollower = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.kBaseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
-    baseJointFollower.follow(baseJoint);
+    baseJointFollower.follow(baseJoint, true);
 
     baseJoint.setIdleMode(IdleMode.kBrake);
     baseJointFollower.setIdleMode(IdleMode.kBrake);
