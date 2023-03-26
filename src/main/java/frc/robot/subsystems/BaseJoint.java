@@ -12,6 +12,8 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -25,24 +27,27 @@ public class BaseJoint extends SubsystemBase {
   /** Creates a new Arm. */
   public BaseJoint() {
     baseJoint = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.kBaseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
-    baseJointFollower = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.kBaseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+    baseJointFollower = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.kFollowerBaseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
     baseJointFollower.follow(baseJoint, true);
 
     baseJoint.setIdleMode(IdleMode.kBrake);
     baseJointFollower.setIdleMode(IdleMode.kBrake);
 
     baseJointEncoder = baseJoint.getAbsoluteEncoder(Type.kDutyCycle);
-    baseJointEncoder.setPositionConversionFactor(360 * Constants.ArmConstants.BaseJointConstants.kBaseJointGearRatio);
+    baseJointEncoder.setPositionConversionFactor(2 * Math.PI * Constants.ArmConstants.BaseJointConstants.kBaseJointGearRatio);
+    baseJointEncoder.setZeroOffset(Constants.ArmConstants.BaseJointConstants.kBaseJointZeroOffset);
 
     baseJoint.burnFlash();
     baseJointFollower.burnFlash();
 
-    baseController = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(5, 5));
-    baseController.setTolerance(2);
+    baseController = new ProfiledPIDController(0.01, 0, 0, new TrapezoidProfile.Constraints(0.5, 0.5));
+    baseController.setTolerance(Units.degreesToRadians(2));
   }
 
-  public double convertTicksToAngle(double ticks) {
-    return (ticks * 360) / Constants.ArmConstants.BaseJointConstants.kBaseJointGearRatio;
+  public double convertTicksToAngle(double angle) {
+    double newAngle = angle;
+    newAngle -= Constants.ArmConstants.BaseJointConstants.kBaseJointKinematicOffset;
+    return (newAngle / Constants.ArmConstants.BaseJointConstants.kBaseJointGearRatio);
   }
 
   public double getAngle() {
@@ -55,6 +60,8 @@ public class BaseJoint extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Base Goal", Units.radiansToDegrees(baseController.getGoal().position));
+    SmartDashboard.putNumber("Current Base Angle", Units.radiansToDegrees(getAngle()));
     // This method will be called once per scheduler run
   }
 }

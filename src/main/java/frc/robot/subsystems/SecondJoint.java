@@ -12,6 +12,7 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -25,29 +26,30 @@ public class SecondJoint extends SubsystemBase {
   /** Creates a new Arm. */
   public SecondJoint() {
     secondJoint = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.kSecondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
-    secondJointFollower = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.kSecondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+    secondJointFollower = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.kFollowerSecondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
     secondJointFollower.follow(secondJoint, true);
 
     secondJoint.setIdleMode(IdleMode.kBrake);
     secondJointFollower.setIdleMode(IdleMode.kBrake);
 
     secondJointEncoder = secondJoint.getAbsoluteEncoder(Type.kDutyCycle);
-    secondJointEncoder.setPositionConversionFactor(360 * Constants.ArmConstants.SecondJointConstants.kSecondJointGearRatio);
+    secondJointEncoder.setPositionConversionFactor(2 * Math.PI * Constants.ArmConstants.SecondJointConstants.kSecondJointGearRatio);
+    secondJointEncoder.setZeroOffset(Constants.ArmConstants.SecondJointConstants.kSecondJointZeroOffset);
+
 
     secondJoint.burnFlash();
     secondJointFollower.burnFlash();
 
-    secondJointController = new ProfiledPIDController(0.001, 0, 0, new TrapezoidProfile.Constraints(5, 5));
-    secondJointController.setTolerance(2);
+    secondJointController = new ProfiledPIDController(0.001, 0, 0, new TrapezoidProfile.Constraints(0.1, 0.1));
+    secondJointController.setTolerance(Units.degreesToRadians(2));
   }
 
-  public double convertTicksToAngle(double ticks) {
-    return ticks / Constants.ArmConstants.SecondJointConstants.kSecondJointGearRatio;
+  public double convertTicksToAngle(double angle) {
+    double newAngle = angle;
+    newAngle -= Constants.ArmConstants.SecondJointConstants.kSecondJointKinematicOffset;
+    return (newAngle / Constants.ArmConstants.SecondJointConstants.kSecondJointGearRatio);
   }
 
-  public double convertAngleToTicks(double angle) {
-    return (angle * Constants.ArmConstants.SecondJointConstants.kSecondJointGearRatio);
-  }
 
   public double getAngle() {
     return convertTicksToAngle(secondJointEncoder.getPosition());

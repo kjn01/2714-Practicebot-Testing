@@ -31,12 +31,16 @@ public final class Constants {
       public static final int kBaseJointMotorCanId = 10;
       public static final int kFollowerBaseJointMotorCanId = 9;
       public static final int kBaseJointGearRatio = 240;
+      public static final double kBaseJointZeroOffset = 1049.0689405;
+      public static final double kBaseJointKinematicOffset = 180;
     }
 
     public static final class SecondJointConstants {
       public static final int kSecondJointMotorCanId = 11;
       public static final int kFollowerSecondJointMotorCanId = 12;
       public static final int kSecondJointGearRatio = 225;
+      public static final double kSecondJointZeroOffset = 1209.691;
+      public static final double kSecondJointKinematicOffset = 753;
     }
   }
 
