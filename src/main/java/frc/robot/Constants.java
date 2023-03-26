@@ -24,6 +24,22 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static final class ArmConstants {
+
+    public static final class BaseJointConstants {
+      public static final int baseJointMotorCanId = 0;
+      public static final int followerBaseJointMotorCanId = 0;
+      public static final int baseJointGearRatio = 240;
+    }
+
+    public static final class SecondJointConstants {
+      public static final int secondJointMotorCanId = 0;
+      public static final int followerSecondJointMotorCanId = 0;
+      public static final int secondJointGearRatio = 225;
+    }
+  }
+
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
