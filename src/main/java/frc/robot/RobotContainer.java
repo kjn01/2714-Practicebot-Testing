@@ -78,6 +78,7 @@ public class RobotContainer {
             m_robotDrive));
     
     m_driverController.a().onTrue(new InstantCommand(() -> arm.setArmPosition(82, 135)));
+    m_driverController.b().onTrue(new InstantCommand(() -> arm.setArmPosition(54, -14)));
   }
 
   /**

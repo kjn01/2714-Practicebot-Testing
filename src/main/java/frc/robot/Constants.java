@@ -28,15 +28,15 @@ public final class Constants {
   public static final class ArmConstants {
 
     public static final class BaseJointConstants {
-      public static final int baseJointMotorCanId = 0;
-      public static final int followerBaseJointMotorCanId = 0;
-      public static final int baseJointGearRatio = 240;
+      public static final int kBaseJointMotorCanId = 0;
+      public static final int kFollowerBaseJointMotorCanId = 0;
+      public static final int kBaseJointGearRatio = 240;
     }
 
     public static final class SecondJointConstants {
-      public static final int secondJointMotorCanId = 0;
-      public static final int followerSecondJointMotorCanId = 0;
-      public static final int secondJointGearRatio = 225;
+      public static final int kSecondJointMotorCanId = 0;
+      public static final int kFollowerSecondJointMotorCanId = 0;
+      public static final int kSecondJointGearRatio = 225;
     }
   }
 

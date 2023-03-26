@@ -24,25 +24,25 @@ public class BaseJoint extends SubsystemBase {
 
   /** Creates a new Arm. */
   public BaseJoint() {
-    baseJoint = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.baseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
-    baseJointFollower = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.baseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+    baseJoint = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.kBaseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+    baseJointFollower = new CANSparkMax(Constants.ArmConstants.BaseJointConstants.kBaseJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
     baseJointFollower.follow(baseJoint);
 
     baseJoint.setIdleMode(IdleMode.kBrake);
     baseJointFollower.setIdleMode(IdleMode.kBrake);
 
     baseJointEncoder = baseJoint.getAbsoluteEncoder(Type.kDutyCycle);
-    baseJointEncoder.setPositionConversionFactor(360 * Constants.ArmConstants.BaseJointConstants.baseJointGearRatio);
+    baseJointEncoder.setPositionConversionFactor(360 * Constants.ArmConstants.BaseJointConstants.kBaseJointGearRatio);
 
     baseJoint.burnFlash();
     baseJointFollower.burnFlash();
 
-    baseController = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(1, 1));
+    baseController = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(5, 5));
     baseController.setTolerance(2);
   }
 
   public double convertTicksToAngle(double ticks) {
-    return (ticks * 360) / Constants.ArmConstants.BaseJointConstants.baseJointGearRatio;
+    return (ticks * 360) / Constants.ArmConstants.BaseJointConstants.kBaseJointGearRatio;
   }
 
   public double getAngle() {

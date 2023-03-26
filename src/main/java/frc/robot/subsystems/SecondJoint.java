@@ -24,29 +24,29 @@ public class SecondJoint extends SubsystemBase {
 
   /** Creates a new Arm. */
   public SecondJoint() {
-    secondJoint = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.secondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
-    secondJointFollower = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.secondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+    secondJoint = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.kSecondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+    secondJointFollower = new CANSparkMax(Constants.ArmConstants.SecondJointConstants.kSecondJointMotorCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
     secondJointFollower.follow(secondJoint);
 
     secondJoint.setIdleMode(IdleMode.kBrake);
     secondJointFollower.setIdleMode(IdleMode.kBrake);
 
     secondJointEncoder = secondJoint.getAbsoluteEncoder(Type.kDutyCycle);
-    secondJointEncoder.setPositionConversionFactor(360 * Constants.ArmConstants.SecondJointConstants.secondJointGearRatio);
+    secondJointEncoder.setPositionConversionFactor(360 * Constants.ArmConstants.SecondJointConstants.kSecondJointGearRatio);
 
     secondJoint.burnFlash();
     secondJointFollower.burnFlash();
 
-    secondJointController = new ProfiledPIDController(0.001, 0, 0, new TrapezoidProfile.Constraints(1, 1));
+    secondJointController = new ProfiledPIDController(0.001, 0, 0, new TrapezoidProfile.Constraints(5, 5));
     secondJointController.setTolerance(2);
   }
 
   public double convertTicksToAngle(double ticks) {
-    return ticks / Constants.ArmConstants.SecondJointConstants.secondJointGearRatio;
+    return ticks / Constants.ArmConstants.SecondJointConstants.kSecondJointGearRatio;
   }
 
   public double convertAngleToTicks(double angle) {
-    return (angle * Constants.ArmConstants.SecondJointConstants.secondJointGearRatio);
+    return (angle * Constants.ArmConstants.SecondJointConstants.kSecondJointGearRatio);
   }
 
   public double getAngle() {
