@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -22,7 +23,8 @@ public class BaseJoint extends SubsystemBase {
   private CANSparkMax baseJoint;
   private CANSparkMax baseJointFollower;
   private AbsoluteEncoder baseJointEncoder;
-  private ProfiledPIDController baseController;
+  private ProfiledPIDController baseJointController;
+  private ArmFeedforward baseJointFF;
 
   /** Creates a new Arm. */
   public BaseJoint() {
@@ -40,8 +42,10 @@ public class BaseJoint extends SubsystemBase {
     baseJoint.burnFlash();
     baseJointFollower.burnFlash();
 
-    baseController = new ProfiledPIDController(0.01, 0, 0, new TrapezoidProfile.Constraints(0.5, 0.5));
-    baseController.setTolerance(Units.degreesToRadians(2));
+    baseJointController = new ProfiledPIDController(0.01, 0, 0, new TrapezoidProfile.Constraints(0.5, 0.5));
+    baseJointController.setTolerance(Units.degreesToRadians(2));
+
+    baseJointFF = new ArmFeedforward(0, 0.47, 4.68, 0.04);
   }
 
   public double convertTicksToAngle(double angle) {
@@ -55,12 +59,16 @@ public class BaseJoint extends SubsystemBase {
   }
 
   public void setPosition(double angle) {
-    baseController.setGoal(angle);
+    baseJointController.setGoal(angle);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Base Goal", Units.radiansToDegrees(baseController.getGoal().position));
+
+    baseJoint.setVoltage(baseJointController.calculate(getAngle(), baseJointController.getGoal()) + 
+    baseJointFF.calculate(baseJointController.getSetpoint().position, 0));
+
+    SmartDashboard.putNumber("Base Goal", Units.radiansToDegrees(baseJointController.getGoal().position));
     SmartDashboard.putNumber("Current Base Angle", Units.radiansToDegrees(getAngle()));
     // This method will be called once per scheduler run
   }
